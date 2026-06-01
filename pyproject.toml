@@ -1,0 +1,194 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "tibet"
+version = "2.1.3"
+description = "TIBET - Humotica trust-system installer: identity, provenance, continuity, evidence, agents, network, conformance, and pre-grant orchestration (T-1 Genesis). pip install tibet[full]"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [
+    { name = "Jasper van de Meent", email = "jasper@humotica.com" },
+    { name = "Root AI", email = "root_idd@humotica.nl" }
+]
+keywords = [
+    "tibet", "audit", "provenance", "compliance", "ai-governance",
+    "trust", "ai-act", "nis2", "gdpr", "security", "cli",
+    "microvm", "isolation", "snaft", "firewall", "mux", "ainternet"
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Security",
+    "Topic :: Software Development :: Quality Assurance"
+]
+requires-python = ">=3.10"
+dependencies = [
+    "click>=8.0.0",
+    "rich>=13.0.0",
+    # Bootstrap-or-die pair: even the meta-installer itself depends on
+    # the central OSAPI substrate (tibet-core for provenance + jis-core
+    # for identity). Every package the user ends up installing through
+    # tibet[*] expects these to already be present.
+    "tibet-core>=0.5.0b2",
+    "jis-core>=0.4.0b1",
+]
+
+[project.optional-dependencies]
+# Individual components
+audit = ["tibet-audit>=0.27.0"]
+forge = ["tibet-forge>=0.7.0"]
+vault = ["tibet-vault>=0.1.0"]
+# Pre-grant orchestration (T-1 Genesis) — closes Mahipal M4 by capturing
+# every incoming tool/registry object in an airlock, dual-verifying it
+# (JIS bilateral consent + TIBET provenance), and emitting a TAT envelope
+# (intent=request_re_attestation) on dirty verdict so the trust-kernel
+# can route fresh biometric assurance through the operator's vehicle.
+genesis = ["tibet-genesis>=0.1.2"]
+# Capsulated email + autonomous posture-cmail emit on verdict.v1 transitions
+cmail = ["tibet-cmail>=0.3.0"]
+
+# Bundle: Identity + provenance handshake substrate
+core = [
+    "tibet-core>=0.5.0b2",
+    "jis-core>=0.4.0b1",
+]
+
+# Bundle: Background guardians and continuity
+daemon = [
+    "tibet-continuityd>=0.6.13",
+    "tibet-gateway>=0.3.0",
+    "tibet-cap-bus>=0.1.2",
+]
+
+# Bundle: SBOM/CBOM, audit trail, reports and replay
+evidence = [
+    "tibet-audit>=0.27.0",
+    "tibet-sbom>=0.2.0",
+    "tibet-cbom>=0.2.0",
+    "tibet-ai-sbom>=0.2.0",
+    "ai-sbom>=0.1.1",
+    "tibet-wayback>=0.2.0",
+    "tibet-report>=0.1.0",
+    "tibet-trail>=0.1.0",
+    "tibet-nis2>=0.1.0",
+    "tibet-cmail>=0.3.0",
+]
+
+# Bundle: Agent communication, MCP surfaces and session resume
+agentic = [
+    "ainternet>=0.9.1",
+    "ipoll>=0.2.1",
+    "tibet-ainternet-mcp>=0.5.7",
+    "tibet-ipoll-mcp>=0.1.0",
+    "tibet-phantom>=0.2.1",
+    "tibet-phantom-mcp>=0.1.1",
+    "tibet-context>=0.2.1",
+]
+
+# Bundle: Isolation, triage and active immune-system controls,
+# including pre-grant orchestration (T-1 Genesis pass)
+safety = [
+    "snaft>=1.3.0",
+    "tibet-airlock>=0.2.0",
+    "tibet-triage>=0.5.1",
+    "tibet-chip>=1.0.1",
+    "tibet-claw>=0.3.1",
+    "tibet-genesis>=0.1.2",
+]
+
+# Bundle: Human-facing operational tools
+operator = [
+    "tibet-pol>=0.3.2",
+    "tibet-ping>=0.3.2",
+    "tibet-tools>=0.1.0",
+    "tibet-marketplace>=0.1.0",
+]
+
+# Bundle: Mesh, mux, overlay and edge transport
+network = [
+    "tibet-mux>=1.0.1",
+    "tibet-overlay>=0.1.1",
+    "tibet-iot>=0.1.1",
+    "tibet-edge>=0.1.0",
+    "tibet-mesh>=0.1.0",
+]
+
+# Bundle: Contract vectors and MCP conformance helpers
+conformance = [
+    "tibet-conformance-vectors>=0.2.1",
+    "tibet-triage-mcp>=0.1.0",
+    "tibet-pol-mcp>=0.1.0",
+]
+
+# Compatibility only; intentionally not part of full.
+legacy = [
+    "tibet-snap>=0.1.0",
+]
+
+# The full trust system: core + daemon + evidence + agentic + safety + operator + network + conformance + pre-grant.
+full = [
+    "tibet-core>=0.5.0b2",
+    "jis-core>=0.4.0b1",
+    "tibet-continuityd>=0.6.13",
+    "tibet-gateway>=0.3.0",
+    "tibet-cap-bus>=0.1.2",
+    "tibet-audit>=0.27.0",
+    "tibet-sbom>=0.2.0",
+    "tibet-cbom>=0.2.0",
+    "tibet-ai-sbom>=0.2.0",
+    "ai-sbom>=0.1.1",
+    "tibet-wayback>=0.2.0",
+    "tibet-report>=0.1.0",
+    "tibet-trail>=0.1.0",
+    "tibet-nis2>=0.1.0",
+    "tibet-cmail>=0.3.0",
+    "ainternet>=0.9.1",
+    "ipoll>=0.2.1",
+    "tibet-ainternet-mcp>=0.5.7",
+    "tibet-ipoll-mcp>=0.1.0",
+    "tibet-phantom>=0.2.1",
+    "tibet-phantom-mcp>=0.1.1",
+    "tibet-context>=0.2.1",
+    "snaft>=1.3.0",
+    "tibet-airlock>=0.2.0",
+    "tibet-triage>=0.5.1",
+    "tibet-chip>=1.0.1",
+    "tibet-claw>=0.3.1",
+    "tibet-genesis>=0.1.2",
+    "tibet-pol>=0.3.2",
+    "tibet-ping>=0.3.2",
+    "tibet-tools>=0.1.0",
+    "tibet-marketplace>=0.1.0",
+    "tibet-mux>=1.0.1",
+    "tibet-overlay>=0.1.1",
+    "tibet-iot>=0.1.1",
+    "tibet-edge>=0.1.0",
+    "tibet-mesh>=0.1.0",
+    "tibet-conformance-vectors>=0.2.1",
+    "tibet-triage-mcp>=0.1.0",
+    "tibet-pol-mcp>=0.1.0",
+]
+
+dev = ["pytest>=7.0", "ruff>=0.1.0"]
+
+[project.urls]
+Homepage = "https://humotica.com"
+Documentation = "https://humotica.com/docs/tibet"
+Repository = "https://github.com/humotica/tibet"
+
+[project.scripts]
+tibet = "tibet.cli:main"
+
+[tool.hatch.build.targets.sdist]
+include = ["/src"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/tibet"]

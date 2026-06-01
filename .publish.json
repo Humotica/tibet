@@ -1,0 +1,16 @@
+{
+  "package": "tibet",
+  "registries": {
+    "pypi": {
+      "url": "https://pypi.org/project/tibet/",
+      "version": "1.0.1",
+      "deprecated": false
+    }
+  },
+  "publish": {
+    "pypi": {
+      "command": "cd /srv/jtel-stack/packages/tibet && python -m build && twine upload dist/*",
+      "auth": "~/.pypirc [pypi] token"
+    }
+  }
+}
