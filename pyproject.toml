@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "tibet"
-version = "2.1.5"
+version = "2.1.6"
 description = "TIBET - Humotica trust-system installer: identity, provenance, continuity, evidence, agents, network, conformance, and pre-grant orchestration (T-1 Genesis). pip install tibet[full]"
 readme = "README.md"
 license = {text = "MIT"}

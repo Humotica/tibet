@@ -123,8 +123,9 @@ def forge(path):
 @click.option("--why", "-w", required=True, help="Intent behind this action (ERACHTER)")
 @click.option("--what", "-W", default="{}", help="Content JSON (ERIN)")
 @click.option("--refs", "-r", multiple=True, help="References (ERAAN)")
+@click.option("--parent", "-p", "parent_id", help="Parent token id for causal chain linkage")
 @click.option("--actor", "-a", default="cli", help="Who is performing this action")
-def create(action, why, what, refs, actor):
+def create(action, why, what, refs, parent_id, actor):
     """Create a TIBET provenance token.
 
     Documents an action BEFORE execution with full provenance.
@@ -145,16 +146,21 @@ def create(action, why, what, refs, actor):
             erin=erin,
             erachter=why,
             eraan=eraan,
-            eromheen={"cli": "tibet", "cwd": str(Path.cwd())}
+            eromheen={"cli": "tibet", "cwd": str(Path.cwd())},
+            parent_id=parent_id
         )
 
+        parent_line = f"\n[bold]Parent:[/bold] {parent_id}" if parent_id else ""
+        refs_line = f"\n[bold]Refs:[/bold] {', '.join(eraan)}" if eraan else ""
         console.print(Panel(
             f"[green]Token Created[/green]\n\n"
             f"[bold]ID:[/bold] {token_identifier(token)}\n"
             f"[bold]Action:[/bold] {action}\n"
             f"[bold]Intent:[/bold] {why}\n"
             f"[bold]Actor:[/bold] {actor}\n"
-            f"[bold]Store:[/bold] {token_store_path()}",
+            f"[bold]Store:[/bold] {token_store_path()}"
+            f"{parent_line}"
+            f"{refs_line}",
             title="TIBET Provenance",
             border_style="green"
         ))
@@ -220,6 +226,11 @@ def export(format):
                 console.print(f"## {token.get('action')}")
                 console.print(f"- ID: `{token_identifier(token)}`")
                 console.print(f"- Actor: {token.get('actor')}")
+                if token.get("parent_id"):
+                    console.print(f"- Parent: `{token.get('parent_id')}`")
+                if token.get("eraan"):
+                    refs = ", ".join(f"`{ref}`" for ref in token.get("eraan", []))
+                    console.print(f"- ERAAN: {refs}")
                 console.print(f"- Intent: {token.get('erachter')}\n")
         else:
             tokens = data.get("tokens", [])
