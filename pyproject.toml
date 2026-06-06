@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "tibet"
-version = "2.1.4"
+version = "2.1.5"
 description = "TIBET - Humotica trust-system installer: identity, provenance, continuity, evidence, agents, network, conformance, and pre-grant orchestration (T-1 Genesis). pip install tibet[full]"
 readme = "README.md"
 license = {text = "MIT"}
@@ -139,7 +139,7 @@ network = [
 # Bundle: Contract vectors and MCP conformance helpers
 conformance = [
     "tibet-conformance-vectors>=0.2.2",
-    "tibet-triage-mcp>=0.1.1",
+    "tibet-triage-mcp>=0.1.0",
     "tibet-pol-mcp>=0.1.0",
 ]
 
@@ -202,7 +202,7 @@ full = [
     "tibet-zip>=1.1.1",
     "tibet-spiffe>=0.1.1",
     "tibet-conformance-vectors>=0.2.2",
-    "tibet-triage-mcp>=0.1.1",
+    "tibet-triage-mcp>=0.1.0",
     "tibet-pol-mcp>=0.1.0",
 ]
 

@@ -58,7 +58,7 @@ PACKAGE_SPECS = {
     "tibet-anticheat": "tibet-anticheat>=0.1.2",
     "tibet-y2k38": "tibet-y2k38>=0.1.2",
     "tibet-pol-mcp": "tibet-pol-mcp>=0.1.0",
-    "tibet-triage-mcp": "tibet-triage-mcp>=0.1.1",
+    "tibet-triage-mcp": "tibet-triage-mcp>=0.1.0",
     "tibet-cmail": "tibet-cmail>=0.3.0",
     "tibet-genesis": "tibet-genesis>=0.1.4",
 }
