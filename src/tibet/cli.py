@@ -15,6 +15,7 @@ from rich.panel import Panel
 from rich.table import Table
 from rich.text import Text
 
+from . import __version__
 from .bundles import BUNDLES, FULL_PACKAGES, LEGACY_PACKAGES, PACKAGE_SPECS
 
 console = Console()
@@ -31,6 +32,14 @@ BANNER = """
 
 
 DEFAULT_TIBET_HOME = Path.home() / ".tibet"
+DEFAULT_TIBET_TOKEN_STORE = DEFAULT_TIBET_HOME / "provenance" / "tokens.jsonl"
+
+
+def token_identifier(token):
+    """Return the canonical token id across tibet-core API generations."""
+    if isinstance(token, dict):
+        return token.get("token_id") or token.get("id")
+    return getattr(token, "token_id", getattr(token, "id", None))
 
 
 def installed_packages(package_names):
@@ -43,8 +52,22 @@ def installed_packages(package_names):
     return installed
 
 
+def token_store_path() -> Path:
+    """Return the default persistent TIBET token store path."""
+    import os
+
+    return Path(os.getenv("TIBET_TOKEN_STORE", str(DEFAULT_TIBET_TOKEN_STORE))).expanduser()
+
+
+def provider_for(actor: str):
+    """Create a Provider backed by the CLI's persistent JSONL token store."""
+    from tibet_core import FileStore, Provider
+
+    return Provider(actor=actor, store=FileStore(str(token_store_path())))
+
+
 @click.group()
-@click.version_option(package_name="tibet", prog_name="tibet")
+@click.version_option(version=__version__, prog_name="tibet")
 def main():
     """TIBET - The Trust Kernel for AI.
 
@@ -110,10 +133,9 @@ def create(action, why, what, refs, actor):
         tibet create file_write --why "Fix login bug" --refs issue-123
     """
     try:
-        from tibet_core import Provider
         import json
 
-        provider = Provider(actor=actor)
+        provider = provider_for(actor)
 
         erin = json.loads(what) if what != "{}" else {}
         eraan = list(refs) if refs else []
@@ -128,10 +150,11 @@ def create(action, why, what, refs, actor):
 
         console.print(Panel(
             f"[green]Token Created[/green]\n\n"
-            f"[bold]ID:[/bold] {token.id}\n"
+            f"[bold]ID:[/bold] {token_identifier(token)}\n"
             f"[bold]Action:[/bold] {action}\n"
             f"[bold]Intent:[/bold] {why}\n"
-            f"[bold]Actor:[/bold] {actor}",
+            f"[bold]Actor:[/bold] {actor}\n"
+            f"[bold]Store:[/bold] {token_store_path()}",
             title="TIBET Provenance",
             border_style="green"
         ))
@@ -147,9 +170,7 @@ def create(action, why, what, refs, actor):
 def verify(token_id):
     """Verify a TIBET token's integrity."""
     try:
-        from tibet_core import Provider
-
-        provider = Provider()
+        provider = provider_for("cli")
         token = provider.get(token_id)
 
         if not token:
@@ -185,11 +206,11 @@ def verify(token_id):
 def export(format):
     """Export the full audit trail."""
     try:
-        from tibet_core import Provider
         import json
 
-        provider = Provider()
-        data = provider.export()
+        provider = provider_for("cli")
+        tokens = provider.export()
+        data = {"tokens": tokens}
 
         if format == "json":
             console.print(json.dumps(data, indent=2, default=str))
@@ -197,7 +218,7 @@ def export(format):
             console.print("# TIBET Audit Trail\n")
             for token in data.get("tokens", []):
                 console.print(f"## {token.get('action')}")
-                console.print(f"- ID: `{token.get('id')}`")
+                console.print(f"- ID: `{token_identifier(token)}`")
                 console.print(f"- Actor: {token.get('actor')}")
                 console.print(f"- Intent: {token.get('erachter')}\n")
         else:
@@ -345,7 +366,7 @@ def system_doctor():
     tibet_home = DEFAULT_TIBET_HOME
     table.add_row("TIBET home", str(tibet_home) if tibet_home.exists() else f"[yellow]missing: {tibet_home}[/yellow]")
 
-    for dirname in ["inbox", "outbox", "audit", "reports", "state"]:
+    for dirname in ["inbox", "outbox", "audit", "reports", "state", "provenance"]:
         path = tibet_home / dirname
         table.add_row(f"Directory {dirname}", "[green]ok[/green]" if path.exists() else "[yellow]missing[/yellow]")
 
@@ -365,7 +386,7 @@ def system_init(home):
     import json
 
     home.mkdir(parents=True, exist_ok=True)
-    for dirname in ["inbox", "outbox", "audit", "reports", "state"]:
+    for dirname in ["inbox", "outbox", "audit", "reports", "state", "provenance"]:
         (home / dirname).mkdir(exist_ok=True)
 
     config_path = home / "config.json"

@@ -1,8 +1,8 @@
 # tibet
 
 The Humotica trust-system installer. One command installs the local substrate for
-identity, provenance, continuity, evidence, agents, network checks, and
-conformance.
+identity, provenance, continuity, evidence, agents, operator approval, network
+checks, and conformance.
 
 [![PyPI](https://img.shields.io/pypi/v/tibet)](https://pypi.org/project/tibet/)
 [![IETF Draft](https://img.shields.io/badge/IETF-draft--vandemeent--tibet--provenance-blue)](https://datatracker.ietf.org/doc/draft-vandemeent-tibet-provenance/)
@@ -15,10 +15,10 @@ agent communication, and first-run system setup.
 ## Install
 
 ```bash
-pip install tibet                 # CLI + tibet-core
+pip install tibet                 # CLI + tibet-core + jis-core
 pip install "tibet[core]"         # + TIBET/JIS handshake substrate
 pip install "tibet[evidence]"     # + audit, SBOM, CBOM, NIS2, reports
-pip install "tibet[agentic]"      # + AInternet, I-Poll, Phantom resume
+pip install "tibet[agentic]"      # + AInternet, I-Poll, Phantom, Cortex, router
 pip install "tibet[full]"         # canonical local trust system
 ```
 
@@ -33,12 +33,12 @@ tibet system walkthrough
 `tibet[full]` is not just a dependency pile. It is the local system profile:
 
 - `core`: TIBET/JIS identity + provenance handshake
-- `daemon`: continuity, gateway events, capability bus
-- `evidence`: audit, SBOM, CBOM, AI-SBOM, NIS2, reports
-- `agentic`: AInternet, I-Poll, Phantom resume, MCP surfaces
-- `safety`: SNAFT, triage, airlock, active immune-system controls
-- `operator`: policy, ping, tools, marketplace
-- `network`: mux, overlay, IoT, edge, mesh
+- `daemon`: continuity, gateway events, capability bus, home-agent
+- `evidence`: audit, SBOM, CBOM, AI-SBOM, NIS2, reports, Cmail, CI
+- `agentic`: AInternet, I-Poll, Phantom resume, Cortex, router, MCP surfaces
+- `safety`: SNAFT, triage, airlock, genesis, PQC, active immune-system controls
+- `operator`: policy, ping, tools, marketplace, nc, keychain, tail, SOC
+- `network`: mux, overlay, IoT, edge, mesh, tibet-zip, SPIFFE
 - `conformance`: public contract vectors and MCP checks
 
 ## Quick Start
@@ -119,6 +119,8 @@ Every token records four dimensions:
 | **CLI** | **tibet** | `tibet system`, `tibet create`, `tibet verify`, `tibet audit`, `tibet forge` |
 | **Firewall** | [snaft](https://pypi.org/project/snaft/) | 22 immutable rules, OWASP 20/20, FIR/A trust |
 | **Network** | [ainternet](https://pypi.org/project/ainternet/) | .aint domains, I-Poll messaging, agent discovery |
+| **Home Agent** | [tibet-home-agent](https://pypi.org/project/tibet-home-agent/) | Headless agent relay with HITL approval path |
+| **Cmail** | [tibet-cmail](https://pypi.org/project/tibet-cmail/) | Capsules, acknowledgements, and signed approval mail |
 | **Compliance** | [tibet-audit](https://pypi.org/project/tibet-audit/) | AI Act, NIS2, GDPR, CRA — 112+ checks |
 | **Trust** | [tibet-forge](https://pypi.org/project/tibet-forge/) | Trust scoring and certification |
 | **SBOM** | [tibet-sbom](https://pypi.org/project/tibet-sbom/) | Supply chain verification with provenance |
@@ -126,6 +128,8 @@ Every token records four dimensions:
 | **Continuity** | [tibet-continuityd](https://pypi.org/project/tibet-continuityd/) | Background continuity guardian |
 | **Capability Bus** | [tibet-cap-bus](https://pypi.org/project/tibet-cap-bus/) | Gateway event contract and command bus |
 | **Triage** | [tibet-triage](https://pypi.org/project/tibet-triage/) | Airlock sandbox, UPIP reproducibility, flare rescue |
+| **Transfer** | [tibet-zip](https://pypi.org/project/tibet-zip/) | Identity-aware signed transfer container |
+| **Netcat** | [tibet-nc](https://pypi.org/project/tibet-nc/) | Operator-friendly network command tooling |
 | **Secrets** | [tibet-vault](https://pypi.org/project/tibet-vault/) | Time-locked secrets with dead man's switch |
 | **Discovery** | [tibet-ping](https://pypi.org/project/tibet-ping/) | LAN discovery, heartbeat, mesh relay |
 
