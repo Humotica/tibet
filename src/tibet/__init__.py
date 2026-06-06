@@ -27,7 +27,7 @@ Philosophy:
 Part of HumoticaOS - One love, one fAmIly!
 """
 
-__version__ = "2.1.6"
+__version__ = "2.1.7"
 
 # Try to import components
 try:

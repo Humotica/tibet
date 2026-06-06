@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "tibet"
-version = "2.1.6"
+version = "2.1.7"
 description = "TIBET - Humotica trust-system installer: identity, provenance, continuity, evidence, agents, network, conformance, and pre-grant orchestration (T-1 Genesis). pip install tibet[full]"
 readme = "README.md"
 license = {text = "MIT"}
@@ -75,8 +75,8 @@ evidence = [
     "tibet-audit>=0.27.1",
     "tibet-sbom>=0.2.1",
     "tibet-cbom>=0.2.2",
-    "tibet-ai-sbom>=0.2.2",
-    "ai-sbom>=0.1.3",
+    "tibet-ai-sbom>=0.2.3",
+    "ai-sbom>=0.2.3",
     "tibet-wayback>=0.2.1",
     "tibet-report>=0.1.2",
     "tibet-trail>=0.1.1",
@@ -159,8 +159,8 @@ full = [
     "tibet-audit>=0.27.1",
     "tibet-sbom>=0.2.1",
     "tibet-cbom>=0.2.2",
-    "tibet-ai-sbom>=0.2.2",
-    "ai-sbom>=0.1.3",
+    "tibet-ai-sbom>=0.2.3",
+    "ai-sbom>=0.2.3",
     "tibet-wayback>=0.2.1",
     "tibet-report>=0.1.2",
     "tibet-trail>=0.1.1",
