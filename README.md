@@ -1,8 +1,8 @@
 # tibet
 
-The Humotica trust-system installer. One command installs the local substrate for
-identity, provenance, continuity, evidence, agents, operator approval, network
-checks, and conformance.
+The Humotica trust-system profile installer. Install only the layer you need:
+zero-state bootstrap, continuity, network, operator tools, observability,
+AI governance, firewall, evidence, compliance, agents, and conformance.
 
 [![PyPI](https://img.shields.io/pypi/v/tibet)](https://pypi.org/project/tibet/)
 [![IETF Draft](https://img.shields.io/badge/IETF-draft--vandemeent--tibet--provenance-blue)](https://datatracker.ietf.org/doc/draft-vandemeent-tibet-provenance/)
@@ -15,11 +15,14 @@ agent communication, and first-run system setup.
 ## Install
 
 ```bash
-pip install tibet                 # CLI + tibet-core + jis-core
-pip install "tibet[core]"         # + TIBET/JIS handshake substrate
-pip install "tibet[evidence]"     # + audit, SBOM, CBOM, NIS2, reports
-pip install "tibet[agentic]"      # + AInternet, I-Poll, Phantom, Cortex, router
-pip install "tibet[full]"         # canonical local trust system
+pip install tibet                    # CLI + tibet-core + jis-core
+pip install "tibet[zero-state]"      # T-1 bootstrap: JIS, TIBET, genesis, causal time
+pip install "tibet[runtime]"         # zero-state + continuity + network + operator
+pip install "tibet[observability]"   # cascade logging, tail, trail, ping, pol
+pip install "tibet[governed-ai]"     # AI governance + firewall + agent + evidence
+pip install "tibet[enterprise]"      # runtime + security + evidence + compliance
+pip install "tibet[full]"            # supported full profile, no deprecated/niche extras
+pip install "tibet[lab]"             # research/lab profile with legacy and niche adapters
 ```
 
 ## After Install
@@ -30,15 +33,23 @@ tibet system init
 tibet system walkthrough
 ```
 
-`tibet[full]` is not just a dependency pile. It is the local system profile:
+`tibet[full]` is the supported full profile. Deprecated aliases, marketplace
+tooling, COBOL, SPIFFE, Y2K38, anti-cheat, and other niche adapters are opt-in
+through `tibet[legacy]`, `tibet[interop]`, `tibet[tooling]`, or `tibet[lab]`.
 
-- `core`: TIBET/JIS identity + provenance handshake
-- `daemon`: continuity, gateway events, capability bus, home-agent
-- `evidence`: audit, SBOM, CBOM, AI-SBOM, NIS2, reports, Cmail, CI
-- `agentic`: AInternet, I-Poll, Phantom resume, Cortex, router, MCP surfaces
-- `safety`: SNAFT, triage, airlock, genesis, PQC, active immune-system controls
-- `operator`: policy, ping, tools, marketplace, nc, keychain, tail, SOC
-- `network`: mux, overlay, IoT, edge, mesh, tibet-zip, SPIFFE
+The canonical profiles are:
+
+- `zero-state`: T-1 bootstrap, JIS identity, TIBET provenance, genesis, causal time
+- `continuity`: continuityd, cap-bus, CBOM, trail, wayback, Phantom state-resume/fork
+- `network`: ping, overlay, mux, nc, mesh, tibet-zip
+- `operator`: policy, tail, Cmail, keychain, home-agent
+- `observability`: Cascade Logging via `tibet-cascade`, tail, trail, ping, pol
+- `ai-governance`: airlock, triage, claw, cortex, SAM
+- `firewall`: SNAFT, tibet-snaft, inject-bender
+- `security`: AI governance + firewall + PQC + gateway
+- `evidence`: audit, SBOM, AI-SBOM, report, wayback, trail
+- `compliance`: NIS2, CI, SOC, workload attestation
+- `agent`: AInternet, I-Poll, MCP surfaces, Phantom, context
 - `conformance`: public contract vectors and MCP checks
 
 ## Quick Start
@@ -127,6 +138,7 @@ Every token records four dimensions:
 | **CBOM** | [tibet-cbom](https://pypi.org/project/tibet-cbom/) | Capability bill of materials |
 | **Continuity** | [tibet-continuityd](https://pypi.org/project/tibet-continuityd/) | Background continuity guardian |
 | **Capability Bus** | [tibet-cap-bus](https://pypi.org/project/tibet-cap-bus/) | Gateway event contract and command bus |
+| **Cascade Logging** | [tibet-cascade](https://pypi.org/project/tibet-cascade/) | Causal observability across JIS, TIBET, cap-bus, network, continuity, Phantom, and evidence |
 | **Triage** | [tibet-triage](https://pypi.org/project/tibet-triage/) | Airlock sandbox, UPIP reproducibility, flare rescue |
 | **Transfer** | [tibet-zip](https://pypi.org/project/tibet-zip/) | Identity-aware signed transfer container |
 | **Netcat** | [tibet-nc](https://pypi.org/project/tibet-nc/) | Operator-friendly network command tooling |
